@@ -53,13 +53,17 @@ function ComprarProducto() {
                 </select>
                 <br />
 
-                <label htmlFor="">Cantidad</label>
+                <label htmlFor="">Cantidad</label> <br />
                 <input name = "cantidad" type="text" value={cantidad} onChange={onInputChange}/>
                 <br />
 
-                <label htmlFor="">Precio</label>
-                <input name = "precio" type="text" value={precio} onChange={onInputChange}/>
-                <button type="submit">Enviar</button>
+                <label htmlFor="">Precio</label> <br />
+                <input name = "precio" type="text" value={precio} onChange={onInputChange}/> 
+                <br />
+                <br />
+                <button type="submit">Guardar compra</button>
+                <br />
+                <br />
             </form>
         </div>
     );

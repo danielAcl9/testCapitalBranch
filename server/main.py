@@ -17,14 +17,6 @@ def get_nombres_productos():
     lista_productos = [row[0] for row in result]
     return lista_productos
 
-@app.route('/api/movimientos', methods=['GET'])
-def get_movimientos():
-    cursor = cnx.cursor()
-    cursor.execute("""SELECT id, id_producto, nom_producto, tipo_movimiento, fecha, cantidad, valor_movimiento FROM movimientos LEFT JOIN productos ON movimientos.id_producto = productos.id ORDER BY fecha DESC""")
-    result = cursor.fetchall()
-    
-    return result
-
 @app.route('/api/productos', methods=['GET'])
 def get_productos():
     cursor = cnx.cursor(dictionary=True)
@@ -32,6 +24,20 @@ def get_productos():
     result = cursor.fetchall()
 
     return result
+
+@app.route('/api/movimientos', methods=['GET'])
+def get_movimientos():
+    cursor = cnx.cursor(dictionary=True)
+    cursor.execute("""SELECT id_mov as id2, id_producto, nom_producto, tipo_movimiento, fecha, cantidad, valor_movimiento 
+                   FROM movimientos 
+                   LEFT JOIN productos 
+                   ON movimientos.id_producto = productos.id 
+                   ORDER BY id2 DESC
+                   LIMIT 10""")
+    result = cursor.fetchall()
+    
+    return result
+
 
 @app.route('/api/productos/compras', methods=['POST'])
 def comprar_producto(): #producto, cantidad, precio
@@ -97,10 +103,9 @@ def get_inventario():
     if producto not in lista_productos:
         return {"message": "Producto no encontrado"}, 404
     else:
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(dictionary=True)
         cursor.execute("SELECT nom_producto, cantidad_disp FROM productos WHERE nom_producto = %s", (producto,))
         result = cursor.fetchall()
-        cursor.close()
 
         inventario = {row[0]: row[1] for row in result}
         for producto, cantidad in inventario.items():
@@ -121,10 +126,9 @@ def modificar_precio():
     cursor = cnx.cursor()
     cursor.execute("SELECT precio FROM productos WHERE nom_producto = %s", (producto,))
     result = cursor.fetchone()
-    cursor.close()
 
     if result:
-        return f"El precio del producto {producto} ha sido modificado a {result[0]}", 200
+        return {"message": "Modificación completada"}, 200
     else:
         return f"No se encontró el producto {producto}", 404
     
@@ -164,8 +168,7 @@ def vender_producto():
             cnx.commit()
 
             nuevo_movimiento(producto, tipo_movimiento, cantidad, precio)
-
-    cursor.close()
+            
     return {"message": "Venta completada"}, 201
 
 if __name__ == '__main__':

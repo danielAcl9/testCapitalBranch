@@ -3,9 +3,11 @@ import React from 'react';
 import { useFetch } from "../hooks/useFetch"
 import { Link, useNavigate } from 'react-router-dom';
 
+
 const Home = () => {
-    const { data, isLoading, hasError } = useFetch("http://localhost:8080/api/productos");
-    const { data: dataMov } = useFetch("http://localhost:8080/api/movimientos");
+    const { data: dataProd, isLoading, hasError } = useFetch("http://localhost:8080/api/productos");
+    
+    const { data: dataMov, isLoading: loadMov, hasError: movError} = useFetch("http://localhost:8080/api/movimientos");
 
     const navigate = useNavigate();
 
@@ -20,6 +22,12 @@ const Home = () => {
     const NavModificarPrecio = () => {
         navigate('/modificar-precio');
     };
+
+    const NavNuevoProducto = () => {
+        navigate('/nuevo-producto');
+    };
+
+    // dataMov.fecha = new Date(dataMov.fecha).toLocaleDateString();
     
     return (
         <div>
@@ -28,6 +36,7 @@ const Home = () => {
                 <button onClick={NavComprarProductos}>Comprar Productos</button>
                 <button onClick={NavVenderProductos}>Vender productos</button>
                 <button onClick={NavModificarPrecio}>Modificar Precio</button>
+                <button onClick={NavNuevoProducto}>Añadir nuevo producto</button>
                 {/* <button onClick={NavPrueba}>Prueba</button> */}
             </section>
 
@@ -44,7 +53,7 @@ const Home = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data && data.map(item => {
+                    {dataProd && dataProd.map(item => {
                         return (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
@@ -63,7 +72,7 @@ const Home = () => {
                 <h3>Historial de Movimientos</h3>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>ID Producto</th>
                         <th>Producto</th>
                         <th>Tipo Movimiento</th>
                         <th>Fecha</th>
@@ -74,11 +83,11 @@ const Home = () => {
                 <tbody>
                     {dataMov && dataMov.map(item => {
                         return (
-                            <tr key={item.id}>
+                            <tr key={item.id_mov}>
                                 <td>{item.id_producto}</td>
                                 <td>{item.nom_producto}</td>
                                 <td>{item.tipo_movimiento}</td>
-                                <td>{item.fecha}</td>
+                                <td>{new Date(item.fecha).toLocaleDateString()}</td>
                                 <td>{item.cantidad}</td>
                                 <td>{item.valor_movimiento}</td>
                             </tr>
