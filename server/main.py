@@ -20,9 +20,8 @@ def get_nombres_productos():
 @app.route('/api/movimientos', methods=['GET'])
 def get_movimientos():
     cursor = cnx.cursor()
-    cursor.execute("""SELECT id_producto, nom_producto, tipo_movimiento, fecha, cantidad, valor_movimiento FROM movimientos LEFT JOIN productos ON movimientos.id_producto = productos.id""")
+    cursor.execute("""SELECT id, id_producto, nom_producto, tipo_movimiento, fecha, cantidad, valor_movimiento FROM movimientos LEFT JOIN productos ON movimientos.id_producto = productos.id ORDER BY fecha DESC""")
     result = cursor.fetchall()
-    cursor.close()
     
     return result
 
@@ -31,7 +30,6 @@ def get_productos():
     cursor = cnx.cursor(dictionary=True)
     cursor.execute("SELECT * FROM productos")
     result = cursor.fetchall()
-    cursor.close()
 
     return result
 
