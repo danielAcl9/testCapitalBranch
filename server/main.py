@@ -171,5 +171,47 @@ def vender_producto():
             
     return {"message": "Venta completada"}, 201
 
+@app.route('/api/indicadores/mercancia', methods=['GET'])
+def mercancia_vendida():
+    cursor = cnx.cursor(dictionary=True)
+
+    args = request.args
+
+    fecha_inicio = args.get('fecha_inicio')
+    fecha_fin = args.get('fecha_fin')
+
+    query = """SELECT nom_producto, SUM(cantidad) as total_vendido 
+                FROM movimientos
+                LEFT JOIN productos
+                ON movimientos.id_producto = productos.id
+                WHERE tipo_movimiento = 'Venta'
+                AND fecha BETWEEN %s AND %s
+                GROUP BY nom_producto"""
+    values = (fecha_inicio, fecha_fin)
+    cursor.execute(query, values)
+    result = cursor.fetchall()
+
+    return result
+
+@app.route('/api/indicadores/inversion', methods=['GET'])
+def inversion_total():
+    cursor = cnx.cursor(dictionary=True)
+
+    fecha_inicio = request.get_json()['fecha_inicio']
+    fecha_fin = request.get_json()['fecha_fin']
+
+    query = """SELECT nom_producto,  SUM(valor_movimiento) as total_invertido
+                FROM movimientos
+                LEFT JOIN productos
+                ON movimientos.id_producto = productos.id
+                WHERE tipo_movimiento = 'Compra'
+                AND fecha BETWEEN %s AND %s
+                GROUP BY nom_producto"""
+    values = (fecha_inicio, fecha_fin)
+    cursor.execute(query, values)
+    result = cursor.fetchone()
+
+    return result
+
 if __name__ == '__main__':
     app.run(debug=True, port = 8080)

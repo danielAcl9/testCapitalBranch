@@ -45,6 +45,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 3px;
 }
 button:hover {
   border-color: #646cff;
@@ -53,6 +54,20 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.tablas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1em;
+  width: 80%;
+}
+
+/* .tablas > thead {
+  background-color: #1a1a1a;
+  color: #646cff;
+  width: 100%;
+  padding: 5px;
+} */
 
 @media (prefers-color-scheme: light) {
   :root {

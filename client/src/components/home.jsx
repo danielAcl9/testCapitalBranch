@@ -1,7 +1,7 @@
 // src/components/Home.js
 import React from 'react';
 import { useFetch } from "../hooks/useFetch"
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => {
@@ -27,12 +27,21 @@ const Home = () => {
         navigate('/nuevo-producto');
     };
 
+    const NavIndicadores = () => {
+        navigate('/indicadores');
+    };
+
     // dataMov.fecha = new Date(dataMov.fecha).toLocaleDateString();
     
     return (
         <div>
             <h1>Gestión de Inventario</h1>
+            <button onClick={NavIndicadores}>Panel de Indicadores</button>
+
+            <hr class="solid"></hr>
+
             <section>
+                <h2>Funciones</h2>
                 <button onClick={NavComprarProductos}>Comprar Productos</button>
                 <button onClick={NavVenderProductos}>Vender productos</button>
                 <button onClick={NavModificarPrecio}>Modificar Precio</button>
@@ -42,7 +51,7 @@ const Home = () => {
 
             <hr class="solid"></hr>
 
-            <section>
+            <section className='tablas'>
                 <h3>Inventario Disponible</h3>
                 <thead>
                     <tr>
@@ -68,7 +77,7 @@ const Home = () => {
 
             <hr class="solid"></hr>
 
-            <section>
+            <section className='tablas'>
                 <h3>Historial de Movimientos</h3>
                 <thead>
                     <tr>
@@ -96,20 +105,6 @@ const Home = () => {
                 </tbody>
 
             </section>
-
-
-            {/* <section>
-                <h2>Indicadores Clave</h2>
-                <p>Fecha de Inicio</p>
-                <input type="date"></input>
-                <p>Fecha de Fin</p>
-                <input type="date"></input>
-
-                <p>Mercancía Vendida: 45</p>
-                <p>Dinero Invertido: 500000</p>
-            </section>
-
-            <hr class="solid"></hr> */}
         </div>
   );
 };
