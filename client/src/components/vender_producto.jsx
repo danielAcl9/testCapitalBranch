@@ -2,8 +2,8 @@ import React from "react"
 import { useFetch } from "../hooks/useFetch"
 import { useForm } from "../hooks/useForm"
 
-const comprar_producto = (producto, cantidad, precio) => {
-    fetch("http://localhost:8080/api/productos/compras", {
+const vender_producto = (producto, cantidad, precio) => {
+    fetch("http://localhost:8080/api/productos/vender", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -19,7 +19,8 @@ const comprar_producto = (producto, cantidad, precio) => {
         .catch(error => console.error(error));
   }
 
-function ComprarProducto() {
+function VenderProducto() {
+    
     const { data, isLoading, hasError } = useFetch("http://localhost:8080/api/productos/nombres");
 
     const {producto, cantidad, precio, onInputChange, onResetForm} = useForm({
@@ -35,14 +36,15 @@ function ComprarProducto() {
             alert("Todos los campos son requeridos");
             return;
         }
-        comprar_producto(producto, cantidad, precio);
-        alert("Producto comprado con éxito");
+        vender_producto(producto, cantidad, precio);
+        alert("Producto vendido con éxito");
+
         onResetForm();
     }
 
     return (
         <div>
-            <h1>Formulario Comprar Productos</h1>
+            <h1>Formulario Vender Productos</h1>
             <form onSubmit={onFormSubmit}>
                 <label forhtml = "producto">Nombre Producto</label><br />
                 <select name = "producto" id="producto" value={producto} onChange={onInputChange}   >
@@ -63,6 +65,6 @@ function ComprarProducto() {
             </form>
         </div>
     );
-}
-
-export default ComprarProducto;
+  }
+  
+  export default VenderProducto;

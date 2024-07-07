@@ -3,7 +3,9 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/home'
 import ComprarProducto from './components/comprar_producto'
-import Prueba from './components/prueba'
+import VenderProducto from './components/vender_producto'
+import ModificarPrecio from './components/modificar_precio';
+// import Prueba from './components/prueba'
 
 
 const App = () => {
@@ -14,28 +16,14 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/comprar-producto' element={<ComprarProducto />} />
-            <Route path='/prueba' element={<Prueba />} />
+            <Route path='/vender-producto' element={<VenderProducto />} />
+            <Route path='/modificar-precio' element={<ModificarPrecio />} />
+            {/* <Route path='/prueba' element={<Prueba />} /> */}
           </Routes>
         </div>
-
       </Router>
 
       {/* 
-
-      <hr class="solid"></hr>
-
-      <section>
-        <h2>Indicadores Clave</h2>
-        <p>Fecha de Inicio</p>
-        <input type="date"></input>
-        <p>Fecha de Fin</p>
-        <input type="date"></input>
-
-        <p>Mercancía Vendida: 45</p>
-        <p>Dinero Invertido: 500000</p>
-      </section>
-
-      <hr class="solid"></hr>
 
       <section>
         <h3>Inventario Disponible</h3>

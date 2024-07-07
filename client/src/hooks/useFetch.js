@@ -13,13 +13,21 @@ export const useFetch = (url) => {
       isLoading: true,
     });
 
-    const res = await fetch(url);
-    const data = await res.json();
-    setState({
-      data,
-      isLoading: false,
-      hasError: null,
-    });
+    try{
+      const res = await fetch(url);
+      const data = await res.json();
+      setState({
+        data,
+        isLoading: false,
+        hasError: null,
+      });
+    } catch (error) {
+      setState({
+        data: null,
+        isLoading: false,
+        hasError: error,
+      });
+    }
   };
 
   useEffect(() => {

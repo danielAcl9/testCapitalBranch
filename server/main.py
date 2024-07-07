@@ -40,20 +40,18 @@ def comprar_producto(): #producto, cantidad, precio
     lista_productos = get_nombres_productos()
     tipo_movimiento = "Compra"
 
-    # TODO Arreglar 
     peticion_comprar = request.get_json()
     producto = peticion_comprar['producto']
     if not producto:
-        return "Falta el producto", 400
+        return {"message": "Falta el producto"}, 400
     
     cantidad = peticion_comprar['cantidad']
     if not cantidad:
-        return "Falta la cantidad", 400
+        return {"message": "Falta la cantidad"}, 400
     
     precio = peticion_comprar['precio']
     if not precio:
-        return "Falta el precio", 400
-    # TODO
+        return {"message": "Falta el precio"}, 400
 
     if producto in lista_productos:
         cursor = cnx.cursor()
@@ -64,25 +62,21 @@ def comprar_producto(): #producto, cantidad, precio
 
         nuevo_movimiento(producto, tipo_movimiento, cantidad, precio)
 
-        
         return {"message":"Compra Completada"}, 201
     else:
-        return "Producto no encontrado", 404
+        return {"message": "Producto no encontrado"}, 404
     
 @app.route('/api/productos/nuevo', methods=['POST'])
 def nuevo_producto():
-
     lista_productos = get_nombres_productos()
 
-    # TODO Arreglar 
     producto = request.get_json()['producto']
-    # TODO 
 
     if producto in lista_productos:
-        return "Producto ya existe", 400
+        return {"message": "Producto ya existe"}, 400
     
     if not producto:
-        return "Falta el producto", 400
+        return {"message": "Falta el producto"}, 400
     else:
         cursor = cnx.cursor()
         query = """INSERT INTO productos (nom_producto, cantidad_disp, precio) VALUES (%s, %s, %s)"""
@@ -91,21 +85,19 @@ def nuevo_producto():
         cnx.commit()
         
         cursor.close()
-        return "Producto creado", 201
+        return {"message": "Producto creado"}, 201
     
 @app.route('/api/productos/inventario', methods=['GET'])
 def get_inventario():
     lista_productos = get_nombres_productos()
 
-    # TODO Arreglar 
     producto = request.get_json()['producto']
-    # TODO
 
     if not producto:
-        return "Ingrese el producto", 400
+        return {"message": "Ingrese el producto"}, 400
     
     if producto not in lista_productos:
-        return "Producto no encontrado", 404
+        return {"message": "Producto no encontrado"}, 404
     else:
         cursor = cnx.cursor()
         cursor.execute("SELECT nom_producto, cantidad_disp FROM productos WHERE nom_producto = %s", (producto,))
@@ -119,10 +111,8 @@ def get_inventario():
 @app.route('/api/productos/modificar_precio', methods=['POST'])
 def modificar_precio():
 
-    # TODO Arreglar 
     producto = request.get_json()['producto']
     precio = request.get_json()['precio']
-    # TODO
 
     cursor = cnx.cursor()
     query = """UPDATE productos SET precio = %s WHERE nom_producto = %s"""
@@ -145,30 +135,29 @@ def vender_producto():
     tipo_movimiento = "Venta"
     cursor = cnx.cursor()
 
-    # TODO Arreglar
     producto = request.get_json()['producto']
     if not producto:
-        return "Falta el producto", 400
+        return {"message": "Falta el producto"}, 400
     
     cantidad = request.get_json()['cantidad']
     if not cantidad:
-        return "Falta la cantidad", 400
+        return {"message": "Falta la cantidad"}, 400
     
     precio = request.get_json()['precio']
     if not precio:
-        return "Falta el precio", 400
-
-    # TODO
+        return {"message": "Falta el precio"}, 400
 
     if producto not in get_nombres_productos():
-        return "Producto no encontrado", 404
+        return {"message": "Producto no encontrado"}, 404
+    
     else:
         query = """SELECT cantidad_disp FROM productos WHERE nom_producto = %s"""
         cursor.execute(query, (producto,))
-        result = cursor.fetchone()
+        result = cursor.fetchall()
 
-        if result[0] < cantidad:
-            return f"No hay suficiente inventario para completar la venta, unidades disponibles: {result[0]}", 400
+        if result[0][0] < int(cantidad):
+            # TODO - Cómo se hace el mensaje acá?
+            return {"message": "No hay suficientes unidades para completar la venta."}, 400
         
         else:
             query_update = """UPDATE productos SET cantidad_disp = cantidad_disp - %s WHERE nom_producto = %s"""
@@ -179,10 +168,7 @@ def vender_producto():
             nuevo_movimiento(producto, tipo_movimiento, cantidad, precio)
 
     cursor.close()
-    return f"Venta de {cantidad} unidades de {producto} completada", 201
-
-
-
+    return {"message": "Venta completada"}, 201
 
 if __name__ == '__main__':
     app.run(debug=True, port = 8080)
