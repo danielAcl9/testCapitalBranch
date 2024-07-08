@@ -40,7 +40,7 @@ function ModificarPrecio() {
     }
         return (
             <div>
-                <h1>Formulario Vender Productos</h1>
+                <h1>Modificar precio</h1>
                 <form onSubmit={onFormSubmit}>
                     <label forhtml = "producto">Nombre Producto</label><br />
                     <select name = "producto" id="producto" value={producto} onChange={onInputChange}   >

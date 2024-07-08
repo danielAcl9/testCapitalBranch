@@ -36,7 +36,7 @@ function NuevoProducto() {
 
     return (
       <div>
-            <h1>Formulario Nuevo Producto</h1>
+            <h1>Añadir Nuevo Producto</h1>
             <form onSubmit={onFormSubmit}>
                 <label htmlFor="producto">Nombre Producto</label><br />
                 <input name="producto" type="text" value={producto} onChange={onInputChange}/>

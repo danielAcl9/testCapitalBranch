@@ -44,16 +44,21 @@ function ComprarProducto() {
         <div>
             <h1>Formulario Comprar Productos</h1>
             <form onSubmit={onFormSubmit}>
-                <label forhtml = "producto">Nombre Producto</label><br />
+                <label forhtml = "producto">Nombre Producto</label>
+                <br />
+
                 <select name = "producto" id="producto" value={producto} onChange={onInputChange}   >
                     <option value="">Seleccione un producto</option>
                     {data && data.map((producto) => (
                         <option value={producto} key = {producto}>{producto}</option>
                     ))}
                 </select>
+
                 <br />
 
-                <label htmlFor="">Cantidad</label> <br />
+                <label htmlFor="">Cantidad</label> 
+                <br />
+
                 <input name = "cantidad" type="text" value={cantidad} onChange={onInputChange}/>
                 <br />
 
@@ -61,9 +66,8 @@ function ComprarProducto() {
                 <input name = "precio" type="text" value={precio} onChange={onInputChange}/> 
                 <br />
                 <br />
+                
                 <button type="submit">Guardar compra</button>
-                <br />
-                <br />
             </form>
         </div>
     );

@@ -66,7 +66,7 @@ function Indicadores() {
             <input name = "fecha_fin" type="date" value={fecha_fin} onChange={onInputChange}/>
             <br />
             <br />
-            <button type='submit'>Calcular</button>
+            <button type='submit'>Enviar</button>
         </form>
 
             <hr className="solid"></hr>
@@ -76,7 +76,7 @@ function Indicadores() {
                 <thead>
                     <tr>
                         <th>Producto</th>
-                        <th>Total Vendido</th>
+                        <th>Cantidad Vendida</th>
                     </tr>
                 </thead>
                 <tbody>

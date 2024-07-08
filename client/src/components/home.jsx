@@ -36,7 +36,6 @@ const Home = () => {
     return (
         <div>
             <h1>Gestión de Inventario</h1>
-            <button onClick={NavIndicadores}>Panel de Indicadores</button>
 
             <hr className="solid"></hr>
 
@@ -44,8 +43,11 @@ const Home = () => {
                 <h2>Funciones</h2>
                 <button onClick={NavComprarProductos}>Comprar Productos</button>
                 <button onClick={NavVenderProductos}>Vender productos</button>
+                <br />
                 <button onClick={NavModificarPrecio}>Modificar Precio</button>
                 <button onClick={NavNuevoProducto}>Añadir nuevo producto</button>
+                <br />
+                <button onClick={NavIndicadores}>Panel de Indicadores</button>
                 {/* <button onClick={NavPrueba}>Prueba</button> */}
             </section>
 

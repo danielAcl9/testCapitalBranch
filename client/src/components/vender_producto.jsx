@@ -37,6 +37,11 @@ function VenderProducto() {
             return;
         }
         vender_producto(producto, cantidad, precio);
+        console.log(hasError);
+        if (hasError === null) {
+            alert("Error al vender el producto, no hay suficientes unidades");
+            return;
+        }
         alert("Producto vendido con éxito");
 
         onResetForm();
@@ -56,12 +61,16 @@ function VenderProducto() {
                 <br />
 
                 <label htmlFor="">Cantidad</label>
+                <br />
                 <input name = "cantidad" type="text" value={cantidad} onChange={onInputChange}/>
                 <br />
 
                 <label htmlFor="">Precio</label>
+                <br />
                 <input name = "precio" type="text" value={precio} onChange={onInputChange}/>
-                <button type="submit">Enviar</button>
+                <br />
+                <br />
+                <button type="submit">Vender</button>
             </form>
         </div>
     );
