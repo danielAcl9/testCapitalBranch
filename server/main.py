@@ -7,17 +7,33 @@ CORS(app)
 
 @app.route('/api/productos/nombres', methods=['GET'])
 def get_nombres_productos():
+    """
+    Solicitud GET para obtener solo los nombres de los productos.
+
+    Returns:
+        list: Una lista de nombres de productos.
+    """
+    # Establecer una conexión con la base de datos
     cnx = get_db_connection()
     cursor = cnx.cursor()
+
     cursor.execute("SELECT nom_producto FROM productos")
+
     result = cursor.fetchall()
     cursor.close()
 
+    # Extraer los nombres de los productos del resultado
     lista_productos = [row[0] for row in result]
     return lista_productos
 
 @app.route('/api/productos', methods=['GET'])
 def get_productos():
+    '''
+    Solicitud GET para obtener todos los productos.
+
+    Returns:
+        list: Una lista de diccionarios con los productos.
+    '''
     cnx = get_db_connection()
     cursor = cnx.cursor(dictionary=True)
     cursor.execute("SELECT * FROM productos")
@@ -28,6 +44,12 @@ def get_productos():
 
 @app.route('/api/movimientos', methods=['GET'])
 def get_movimientos():
+    '''
+    Solicitud GET para obtener los últimos movimientos realizados.
+
+    Returns:
+        list: Una lista de diccionarios con los movimientos.
+    '''
     cnx = get_db_connection()
     cursor = cnx.cursor(dictionary=True)
     cursor.execute("""SELECT id_mov as id2, id_producto, nom_producto, tipo_movimiento, fecha, cantidad, valor_movimiento 
@@ -43,6 +65,12 @@ def get_movimientos():
 
 @app.route('/api/productos/compras', methods=['POST'])
 def comprar_producto(): #producto, cantidad, precio
+    '''
+        Solicitud POST para comprar un producto.
+
+        Returns:
+            dict: Un mensaje de confirmación de que se añadió a la base de datos.
+    '''
     cnx = get_db_connection()
     lista_productos = get_nombres_productos()
     tipo_movimiento = "Compra"
@@ -76,6 +104,12 @@ def comprar_producto(): #producto, cantidad, precio
     
 @app.route('/api/productos/nuevo', methods=['POST'])
 def nuevo_producto():
+    '''
+        Solicitud POST para añadir un nuevo producto a la base de datos.
+
+        Returns:
+            dict: Un mensaje de confirmación de que se añadió a la base de datos
+    '''
     cnx = get_db_connection()
     lista_productos = get_nombres_productos()
 
@@ -98,6 +132,12 @@ def nuevo_producto():
     
 @app.route('/api/productos/inventario', methods=['GET'])
 def get_inventario():
+    '''
+        Solicitud GET para obtener el inventario de productos.
+
+        Returns:
+            dict: Un diccionario con los productos y su cantidad disponible por producto.
+    '''
     cnx = get_db_connection()
     lista_productos = get_nombres_productos()
 
@@ -120,6 +160,12 @@ def get_inventario():
     
 @app.route('/api/productos/modificar_precio', methods=['POST'])
 def modificar_precio():
+    '''
+        Solicitud POST para modificar el precio de un producto.
+
+        Returns:
+            dict: Un mensaje de confirmación de que se modificó el precio.
+    '''
     cnx = get_db_connection()
 
     producto = request.get_json()['producto']
@@ -143,6 +189,12 @@ def modificar_precio():
     
 @app.route('/api/productos/vender', methods=['POST'])
 def vender_producto():
+    '''
+        Solicitud POST para vender un producto.
+
+        Returns:
+            dict: Un mensaje de confirmación de que se completó la venta, y el producto fue actualizado en la base de datos.
+    '''
     cnx = get_db_connection()
     tipo_movimiento = "Venta"
     cursor = cnx.cursor()
@@ -184,6 +236,13 @@ def vender_producto():
 
 @app.route('/api/indicadores/mercancia', methods=['GET'])
 def mercancia_vendida():
+    '''
+        Solicitud GET para obtener la mercancía vendida en un rango de fechas.
+
+        Returns:
+            list: Una lista de diccionarios con los productos y la cantidad total vendida en el rango de fechas.
+    '''
+
     cnx = get_db_connection()
     cursor = cnx.cursor(dictionary=True)
 
@@ -208,6 +267,12 @@ def mercancia_vendida():
 
 @app.route('/api/indicadores/inversion', methods=['GET'])
 def inversion_total():
+    '''
+        Solicitud GET para obtener la inversión total en un rango de fechas.
+
+        Returns:
+            list: Una lista de diccionarios con los productos y la cantidad total invertida en el rango de fechas.
+    '''
     cnx = get_db_connection()
     cursor = cnx.cursor(dictionary=True)
 
