@@ -38,7 +38,7 @@ const Home = () => {
             <h1>Gestión de Inventario</h1>
             <button onClick={NavIndicadores}>Panel de Indicadores</button>
 
-            <hr class="solid"></hr>
+            <hr className="solid"></hr>
 
             <section>
                 <h2>Funciones</h2>
@@ -49,10 +49,10 @@ const Home = () => {
                 {/* <button onClick={NavPrueba}>Prueba</button> */}
             </section>
 
-            <hr class="solid"></hr>
+            <hr className="solid"></hr>
 
-            <section className='tablas'>
-                <h3>Inventario Disponible</h3>
+            <h3>Inventario Disponible</h3>
+            <table className='tablas'>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -73,12 +73,12 @@ const Home = () => {
                         );
                     })}
                 </tbody>
-            </section>
+            </table>
 
-            <hr class="solid"></hr>
+            <hr className="solid"></hr>
 
-            <section className='tablas'>
-                <h3>Historial de Movimientos</h3>
+            <h3>Historial de Movimientos</h3>
+            <table className='tablas'>
                 <thead>
                     <tr>
                         <th>ID Producto</th>
@@ -92,7 +92,7 @@ const Home = () => {
                 <tbody>
                     {dataMov && dataMov.map(item => {
                         return (
-                            <tr key={item.id_mov}>
+                            <tr key={item.id2}>
                                 <td>{item.id_producto}</td>
                                 <td>{item.nom_producto}</td>
                                 <td>{item.tipo_movimiento}</td>
@@ -103,8 +103,7 @@ const Home = () => {
                         );
                     })}
                 </tbody>
-
-            </section>
+            </table>
         </div>
   );
 };

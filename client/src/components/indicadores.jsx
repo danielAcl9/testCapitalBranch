@@ -2,33 +2,59 @@ import React from 'react';
 import { useFetch } from "../hooks/useFetch"
 import { useForm } from "../hooks/useForm"
 
-function setFechas(fecha_inicio, fecha_fin) {
-    return `http://localhost:8080/api/indicadores/mercancia?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}`;
+async function getDataMercancia(fechaini,fechafin){
+    let dataMercancia;
+
+
+    try {
+        const resp = await fetch(`http://localhost:8080/api/indicadores/mercancia?fecha_inicio=${fechaini}&fecha_fin=${fechafin}`);
+        dataMercancia = await resp.json();
+        
+        return {dataMercancia};
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
+async function getDataInversion(fechaini,fechafin){
+    let dataInversion;
+    
+    try {
+        const resp2 = await fetch(`http://localhost:8080/api/indicadores/inversion?fecha_inicio=${fechaini}&fecha_fin=${fechafin}`);
+        dataInversion = await resp2.json();
+
+        return {dataInversion};
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 function Indicadores() {
-
-    const { data: dataMercancia, isLoading, hasError } = useFetch("http://localhost:8080/api/indicadores/mercancia?fecha_inicio=${fecha_inicio}&fecha_fin=${fecha_fin}");
     
     const {fecha_inicio, fecha_fin, onInputChange, onResetForm} = useForm({
         
         fecha_inicio: "",
         fecha_fin: ""
     });
-    
+
+    const [dataMercancia, setDataMercancia] = React.useState([]);
+    const [dataInversion, setDataInversion] = React.useState([]);
+
     const onFormSubmit = (event) => {
         event.preventDefault();
-        setFechas(fecha_inicio, fecha_fin);
+        getDataMercancia(fecha_inicio, fecha_fin).then((data) => {
+            setDataMercancia(data.dataMercancia);
+        });
+        getDataInversion(fecha_inicio, fecha_fin).then((data) => {
+            setDataInversion(data.dataInversion);
+        });
         onResetForm();
-        
-        return dataMercancia;
     }
     
     // const { data: dataInversion, isLoading: loadVentas, hasError: ventasError} = useFetch("http://localhost:8080/api/indicadores/inversion");
     
     return (
-        console.log(dataMercancia),
         <div>
         <h1>Indicadores</h1>
         <form onSubmit={onFormSubmit}>
@@ -40,11 +66,13 @@ function Indicadores() {
             <input name = "fecha_fin" type="date" value={fecha_fin} onChange={onInputChange}/>
             <br />
             <br />
-            <button onClick={setFechas}>Calcular</button>
+            <button type='submit'>Calcular</button>
+        </form>
 
-            <hr class="solid"></hr>
+            <hr className="solid"></hr>
 
             <h3>Mercancia vendida</h3>
+            <table>
                 <thead>
                     <tr>
                         <th>Producto</th>
@@ -54,14 +82,36 @@ function Indicadores() {
                 <tbody>
                     {dataMercancia && dataMercancia.map(item => {
                         return (
-                            <tr>
+                            <tr key={item.id}>
                                 <td>{item.nom_producto}</td>
                                 <td>{item.total_vendido}</td>
                             </tr>
                         );
                     })}
                 </tbody>
-        </form>
+            </table>
+
+            <hr className="solid"></hr>
+
+            <h3>Dinero Invertido</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Total Invertido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {dataInversion && dataInversion.map(item => {
+                        return (
+                            <tr key={item.id}>
+                                <td>{item.nom_producto}</td>
+                                <td>{item.total_invertido}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
       </div>
     );
 }
