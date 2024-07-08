@@ -7,7 +7,6 @@ import VenderProducto from './components/vender_producto'
 import ModificarPrecio from './components/modificar_precio';
 import NuevoProducto from './components/nuevo-producto';
 import Indicadores from './components/indicadores';
-// import Prueba from './components/prueba'
 
 
 const App = () => {
@@ -22,7 +21,6 @@ const App = () => {
             <Route path='/modificar-precio' element={<ModificarPrecio />} />
             <Route path='/nuevo-producto' element={<NuevoProducto />} />
             <Route path='/indicadores' element={<Indicadores />} />
-            {/* <Route path='/prueba' element={<Prueba />} /> */}
           </Routes>
         </div>
       </Router>

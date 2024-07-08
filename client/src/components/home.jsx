@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const { data: dataProd, isLoading, hasError } = useFetch("http://localhost:8080/api/productos");
-    
     const { data: dataMov, isLoading: loadMov, hasError: movError} = useFetch("http://localhost:8080/api/movimientos");
 
     const navigate = useNavigate();
@@ -30,8 +29,6 @@ const Home = () => {
     const NavIndicadores = () => {
         navigate('/indicadores');
     };
-
-    // dataMov.fecha = new Date(dataMov.fecha).toLocaleDateString();
     
     return (
         <div>
@@ -44,11 +41,12 @@ const Home = () => {
                 <button onClick={NavComprarProductos}>Comprar Productos</button>
                 <button onClick={NavVenderProductos}>Vender productos</button>
                 <br />
+
                 <button onClick={NavModificarPrecio}>Modificar Precio</button>
                 <button onClick={NavNuevoProducto}>Añadir nuevo producto</button>
                 <br />
+                
                 <button onClick={NavIndicadores}>Panel de Indicadores</button>
-                {/* <button onClick={NavPrueba}>Prueba</button> */}
             </section>
 
             <hr className="solid"></hr>

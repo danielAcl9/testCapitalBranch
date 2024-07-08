@@ -5,7 +5,6 @@ import { useForm } from "../hooks/useForm"
 async function getDataMercancia(fechaini,fechafin){
     let dataMercancia;
 
-
     try {
         const resp = await fetch(`http://localhost:8080/api/indicadores/mercancia?fecha_inicio=${fechaini}&fecha_fin=${fechafin}`);
         dataMercancia = await resp.json();
@@ -51,8 +50,6 @@ function Indicadores() {
         });
         onResetForm();
     }
-    
-    // const { data: dataInversion, isLoading: loadVentas, hasError: ventasError} = useFetch("http://localhost:8080/api/indicadores/inversion");
     
     return (
         <div>

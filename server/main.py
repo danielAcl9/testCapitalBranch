@@ -5,8 +5,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-
-
 @app.route('/api/productos/nombres', methods=['GET'])
 def get_nombres_productos():
     cnx = get_db_connection()
@@ -42,7 +40,6 @@ def get_movimientos():
     cursor.close()
 
     return result
-
 
 @app.route('/api/productos/compras', methods=['POST'])
 def comprar_producto(): #producto, cantidad, precio
@@ -140,9 +137,9 @@ def modificar_precio():
     cursor.close()
 
     if result:
-        return {"message": "Modificación completada"}, 200
+        return {"message": "Modificación completada."}, 200
     else:
-        return f"No se encontró el producto {producto}", 404
+        return {"message": "No se encontró el producto."}, 404
     
 @app.route('/api/productos/vender', methods=['POST'])
 def vender_producto():

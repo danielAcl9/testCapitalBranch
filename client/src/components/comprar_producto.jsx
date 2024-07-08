@@ -21,7 +21,6 @@ const comprar_producto = (producto, cantidad, precio) => {
 
 function ComprarProducto() {
     const { data, isLoading, hasError } = useFetch("http://localhost:8080/api/productos/nombres");
-
     const {producto, cantidad, precio, onInputChange, onResetForm} = useForm({
         producto: "",
         cantidad: "",
@@ -35,8 +34,10 @@ function ComprarProducto() {
             alert("Todos los campos son requeridos");
             return;
         }
+
         comprar_producto(producto, cantidad, precio);
         alert("Producto comprado con éxito");
+        
         onResetForm();
     }
 
